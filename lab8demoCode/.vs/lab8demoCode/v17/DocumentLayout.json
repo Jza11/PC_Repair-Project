@@ -1,0 +1,58 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Brock\\source\\repos\\democodeLab8\\lab8demoCode\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{DD67D81E-3442-4241-9988-B62C160B58DC}|lab8demoCode\\lab8demoCode.pyproj|C:\\Users\\Brock\\Source\\Repos\\democodeLab8\\lab8demoCode\\lab8demoCode\\lab8demoCode.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{DD67D81E-3442-4241-9988-B62C160B58DC}|lab8demoCode\\lab8demoCode.pyproj|solutionrelative:lab8demoCode\\lab8demoCode.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DD67D81E-3442-4241-9988-B62C160B58DC}|lab8demoCode\\lab8demoCode.pyproj|C:\\Users\\Brock\\Source\\Repos\\democodeLab8\\lab8demoCode\\lab8demoCode\\myHeap.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{DD67D81E-3442-4241-9988-B62C160B58DC}|lab8demoCode\\lab8demoCode.pyproj|solutionrelative:lab8demoCode\\myHeap.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "myHeap.py",
+              "DocumentMoniker": "C:\\Users\\Brock\\source\\repos\\democodeLab8\\lab8demoCode\\lab8demoCode\\myHeap.py",
+              "RelativeDocumentMoniker": "lab8demoCode\\myHeap.py",
+              "ToolTip": "C:\\Users\\Brock\\source\\repos\\democodeLab8\\lab8demoCode\\lab8demoCode\\myHeap.py",
+              "RelativeToolTip": "lab8demoCode\\myHeap.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-11-04T18:40:01.643Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "lab8demoCode.py",
+              "DocumentMoniker": "C:\\Users\\Brock\\source\\repos\\democodeLab8\\lab8demoCode\\lab8demoCode\\lab8demoCode.py",
+              "RelativeDocumentMoniker": "lab8demoCode\\lab8demoCode.py",
+              "ToolTip": "C:\\Users\\Brock\\source\\repos\\democodeLab8\\lab8demoCode\\lab8demoCode\\lab8demoCode.py",
+              "RelativeToolTip": "lab8demoCode\\lab8demoCode.py",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAABsAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-11-04T17:46:25.382Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
