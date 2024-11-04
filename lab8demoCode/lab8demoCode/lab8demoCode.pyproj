@@ -28,6 +28,7 @@
     <Compile Include="myBSTNode.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="myHeap.py" />
     <Compile Include="myQueue.py">
       <SubType>Code</SubType>
     </Compile>
