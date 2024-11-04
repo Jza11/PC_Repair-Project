@@ -1,7 +1,6 @@
 class myHeap:
-    def extractMax(self, arr):
+    def extractMax(self, arr, n):
         max = arr[0]
-        n = len(arr)
         arr[0] = arr[n-1]
         n = n-1
         self.heapify(A, 0, n-1)
@@ -12,9 +11,8 @@ class myHeap:
         arr[i] = arr[j]
         arr[j] = temp
 
-    def heapify(self, arr, i):
+    def heapify(self, arr, i, n):
         largest = i
-        n = len(arr)
         if ((2*i + 1) <= n and (arr[2*i + 1] > arr[i])):
             largest = 2*i + 1
 
@@ -31,6 +29,6 @@ class myHeap:
             print(i + " " + arr[i])
 
     def buildHeap(self, arr):
-        n = len(arr)
+        n = len(arr)-1
         for i in reversed(range(n)):
             self.heapify(arr, i, n)

@@ -3,22 +3,33 @@ from tkinter import messagebox
 from tkinter import ttk
 from myQueue import myQueue
 from myBST import myBST
+from myHeap import myHeap
 
 q = myQueue()
 btree = myBST()
+heap = myHeap()
+heapArr = []
 
 def customer_view():
     customer = tk.Toplevel(root)
     customer.title("Customer View")
     customer.geometry("300x300")
+
+    priorityText = tk.StringVar()
+    priorityText.set("")
+
     input = tk.Entry(customer)
     input.grid(row=0, column=0)
     queue = ttk.Combobox(customer)
-    queue.grid(row=2, column=0)
+    queue.grid(row=3, column=0)
+    priorityLabel = tk.Label(customer,textvariable = priorityText)
+    priorityLabel.grid(row=4, column=0)
+
 
     def addItem():
         item = input.get()
         q.push(item);
+        heapArr.append(item)
         updateQueue();
 
     def updateQueue():
@@ -26,7 +37,15 @@ def customer_view():
         queuevalues = q.contents()
         queue['values'] = queuevalues
 
-    button = tk.Button(customer, text="Add Request", command = addItem).grid(row=1, column=0)
+    def getPriority():
+        heap.buildHeap(heapArr)
+        priorityText.set(str(heapArr[0]))
+
+    button = tk.Button(customer, text="Add Request", command = addItem)
+    button.grid(row=1, column=0)
+    priorityButton = tk.Button(customer, text="Get Priority", command=getPriority)
+    priorityButton.grid(row=2, column=0)
+
 
 
 def technician_view():
