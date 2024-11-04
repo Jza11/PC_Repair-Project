@@ -12,3 +12,6 @@ class myQueue:
         if self.empty():
             return "Is empty"
         return self.content.pop(0)
+
+    def contents(self):
+        return self.content
