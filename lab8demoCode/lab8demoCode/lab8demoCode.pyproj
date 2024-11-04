@@ -22,6 +22,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="lab8demoCode.py" />
+    <Compile Include="myBST.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="myBSTNode.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="myQueue.py">
       <SubType>Code</SubType>
     </Compile>
