@@ -1,2 +1,2 @@
 # democodeLab8
-Demo code for lab 8 (uRepair project)
+Demo code for lab 8 (PC Repair Project)
