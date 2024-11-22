@@ -28,20 +28,12 @@ def customer_view():
     
 
     customer.grid_columnconfigure(0, weight=1)
-    #Will display highest priority customer request upon buttom press. priorityText is a variable that stores the highest priority request
-    priorityText = tk.StringVar()
-    priorityText.set("")
+
 
     #Create input field (text box) for adding new requests
     input = tk.Entry(customer, width=16)
     #order it in the window so it is topleft
     input.grid(row=0, column=0)
-    #create a dropdown box with all the requests, ordered chronologically
-    queue = ttk.Combobox(customer, width=16, height=1)
-    queue.grid(row=3, column=0)
-    #Text label to output the highest priority customer request
-    priorityLabel = tk.Label(customer,textvariable = priorityText, width=16, height=1)
-    priorityLabel.grid(row=4, column=0)
 
     
     #function to add new customer request after button press
@@ -51,30 +43,19 @@ def customer_view():
         #push the item to the queue
         q.push(item);
         #push the item to the heap
-        heapArr.append(item)
+        heapArr.append(item)    
         #Update the drop down list
-        updateQueue();
 
 
-    def updateQueue():
-        #fetch items in the queue into queuevalues variable
-        queuevalues = q.contents()
-        #update the dropdown box contents with the queue contents
-        queue['values'] = queuevalues
+    #def updateQueue():
 
-    #get the highest priority customer request (upon button press)
-    def getPriority():
-        #build the heap from the array
-        heap.buildHeap(heapArr)
-        #Get the top most element and update the label
-        priorityText.set(str(heapArr[0]))
+
+
 
     #button for adding new customer requests
     button = tk.Button(customer, text="Add Request", command = addItem, width=16, height=1)
     button.grid(row=1, column=0)
-    #button for getting highest priority requests
-    priorityButton = tk.Button(customer, text="Get Priority", command=getPriority, width=16, height=1)
-    priorityButton.grid(row=2, column=0)
+
 
 
 #technician window. Customers can view available technicians, and technicians can add themselves (would be separated functionalities in final product)
@@ -84,6 +65,10 @@ def technician_view():
     technician.title("Technician View")
     technician.geometry("300x300")
 
+    #Will display highest priority customer request upon buttom press. priorityText is a variable that stores the highest priority request
+    priorityText = tk.StringVar()
+    priorityText.set("")
+
     technician.grid_columnconfigure(0, weight=1)
     #create text box for input
     input = tk.Entry(technician, width=16)
@@ -91,6 +76,17 @@ def technician_view():
     #create dropdown box with available technicians
     BST = ttk.Combobox(technician, width=16, height=1)
     BST.grid(row=2, column=0)
+    #create a dropdown box with all the requests, ordered chronologically
+    queue = ttk.Combobox(technician, width=16, height=1)
+    queue.grid(row=3, column=0)
+    #Text label to output the highest priority customer request
+    priorityLabel = tk.Label(technician,textvariable = priorityText, width=16, height=1)
+    priorityLabel.grid(row=4, column=0)
+
+    #fetch items in the queue into queuevalues variable
+    queuevalues = q.contents()
+    #update the dropdown box contents with the queue contents
+    queue['values'] = queuevalues
 
     #function to add item
     def addItem():
@@ -104,6 +100,13 @@ def technician_view():
         btree.inOrder(btree.getRoot())
         #update dropdown box with new elements
         updateBST()
+        
+        #get the highest priority customer request (upon button press)
+    def getPriority():
+        #build the heap from the array
+        heap.buildHeap(heapArr)
+        #Get the top most element and update the label
+        priorityText.set(str(heapArr[0]))
 
     def updateBST():
         #get ordered list
@@ -114,6 +117,10 @@ def technician_view():
     #Button to add new technicians
     button = tk.Button(technician, text="Add Technician", command = addItem, width=16, height=1)
     button.grid(row=1, column=0)
+
+    #button for getting highest priority requests
+    priorityButton = tk.Button(technician, text="Get Priority", command=getPriority, width=16, height=1)
+    priorityButton.grid(row=2, column=0)
 
     
 
