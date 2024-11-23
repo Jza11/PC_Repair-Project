@@ -60,7 +60,41 @@ def customer_view():
     button.grid(row=1, column=0)
 
 
+def admin_view():
+    admin = tk.Toplevel(root)
+    admin.title("Admin View")
+    admin.geometry("300x300")
+    
+    selected_account = tk.StringVar()
+    selected_account.set("")
 
+    accounts = ttk.Combobox(admin, textvariable=selected_account, width=25, height=1)
+    accounts.grid(row=0, column=0)
+
+    def deleteItem():
+        username = selected_account.get()
+        username = username.split(" ")[0]
+        index = usernames.index(username)
+        usernames.pop(index)
+        passwords.pop(index)
+        roles.pop(index)
+        updateList()
+        selected_account.set("")
+
+    def updateList():
+        dropdown_q = myQueue()
+        for i in range(len(usernames)):
+            dropdown_q.push(usernames[i] + " " + passwords[i] + " " + roles[i])
+        accounts['values'] = dropdown_q.contents()
+
+    updateList()
+
+
+    deleteButton = tk.Button(admin, text="Delete Account", command=deleteItem, width=25, height=1)
+    deleteButton.grid(row=1,column=0)
+
+
+        
 #technician window. Customers can view available technicians, and technicians can add themselves (would be separated functionalities in final product)
 def technician_view():
     #create new window
@@ -148,7 +182,7 @@ def login():
             
 def openWindow(role):
     if role == 'Admin':
-        print('open admin')
+        admin_view()
     elif role == 'Technician':
         technician_view()
     elif role == 'Customer':

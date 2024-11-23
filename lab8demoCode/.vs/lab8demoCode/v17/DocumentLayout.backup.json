@@ -11,12 +11,12 @@
       "RelativeMoniker": "D:0:0:{DD67D81E-3442-4241-9988-B62C160B58DC}|lab8demoCode\\lab8demoCode.pyproj|solutionrelative:lab8demoCode\\myQueue.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DD67D81E-3442-4241-9988-B62C160B58DC}|lab8demoCode\\lab8demoCode.pyproj|C:\\Users\\Brock\\source\\repos\\democodeLab8\\lab8demoCode\\lab8demoCode\\myBSTNode.py||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{DD67D81E-3442-4241-9988-B62C160B58DC}|lab8demoCode\\lab8demoCode.pyproj|solutionrelative:lab8demoCode\\myBSTNode.py||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{DD67D81E-3442-4241-9988-B62C160B58DC}|lab8demoCode\\lab8demoCode.pyproj|C:\\Users\\Brock\\source\\repos\\democodeLab8\\lab8demoCode\\lab8demoCode\\myBST.py||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{DD67D81E-3442-4241-9988-B62C160B58DC}|lab8demoCode\\lab8demoCode.pyproj|solutionrelative:lab8demoCode\\myBST.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DD67D81E-3442-4241-9988-B62C160B58DC}|lab8demoCode\\lab8demoCode.pyproj|C:\\Users\\Brock\\source\\repos\\democodeLab8\\lab8demoCode\\lab8demoCode\\myBSTNode.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{DD67D81E-3442-4241-9988-B62C160B58DC}|lab8demoCode\\lab8demoCode.pyproj|solutionrelative:lab8demoCode\\myBSTNode.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{DD67D81E-3442-4241-9988-B62C160B58DC}|lab8demoCode\\lab8demoCode.pyproj|C:\\Users\\Brock\\source\\repos\\democodeLab8\\lab8demoCode\\lab8demoCode\\myHeap.py||{8B382828-6202-11D1-8870-0000F87579D2}",
@@ -42,20 +42,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "myBST.py",
               "DocumentMoniker": "C:\\Users\\Brock\\source\\repos\\democodeLab8\\lab8demoCode\\lab8demoCode\\myBST.py",
               "RelativeDocumentMoniker": "lab8demoCode\\myBST.py",
               "ToolTip": "C:\\Users\\Brock\\source\\repos\\democodeLab8\\lab8demoCode\\lab8demoCode\\myBST.py",
               "RelativeToolTip": "lab8demoCode\\myBST.py",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACsAAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAAAIAAAAAAAAAAADwvysAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
               "WhenOpened": "2024-11-04T20:33:15.987Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "myBSTNode.py",
               "DocumentMoniker": "C:\\Users\\Brock\\source\\repos\\democodeLab8\\lab8demoCode\\lab8demoCode\\myBSTNode.py",
               "RelativeDocumentMoniker": "lab8demoCode\\myBSTNode.py",
@@ -87,7 +87,7 @@
               "RelativeDocumentMoniker": "lab8demoCode\\lab8demoCode.py",
               "ToolTip": "C:\\Users\\Brock\\source\\repos\\democodeLab8\\lab8demoCode\\lab8demoCode\\lab8demoCode.py",
               "RelativeToolTip": "lab8demoCode\\lab8demoCode.py",
-              "ViewState": "AgIAAIcAAAAAAAAAAAAAAJAAAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAADwAAAAAAAAAAAAAAFYAAABAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
               "WhenOpened": "2024-11-04T17:46:25.382Z",
               "EditorCaption": ""
