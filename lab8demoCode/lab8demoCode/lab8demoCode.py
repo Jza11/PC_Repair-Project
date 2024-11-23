@@ -37,6 +37,10 @@ heapArr = ["4-Severe | Software | $80 | bobbybobby@gmail.com | My computer scree
            "2-Unsure | Hardware | $120 | joesmithy@gmail.com | My computer fans arent running and it is very hot",
            "1-Minor | Software | $80 | fireonmycomputer@gmail.com | My computer is on fire right now"]
 heap.buildHeap(heapArr)
+# hardwareType + " | $" + price + " | " + condition + " | " + contact + " | " + description
+listings = ["Monitor | 180 | Like New | bob@gmail.com | acer 27 inch monitor fcfs",
+            "GPU | 220 | Good | redsam@gmail.com | nvidia gtx 970 runs well and cool",
+            "Motherboard | 100 | Used | joeyman21@gmail.com | acer motherboard. not sure what model",]
 
 #Customer view window. Has the customer requests where customers can add requests and view technicians
 def customer_view():
@@ -44,7 +48,7 @@ def customer_view():
     customer = tk.Toplevel(root)
     customer.title("Customer View")
     #geometry defines size of new window
-    customer.geometry("600x600")
+    customer.geometry("800x600")
 
     #configure layout of window so there is just one column
     customer.grid_columnconfigure(0, weight=1)
@@ -232,7 +236,7 @@ def technician_view():
     #create new window
     technician = tk.Toplevel(root)
     technician.title("Technician View")
-    technician.geometry("600x600")
+    technician.geometry("800x600")
 
     #Will display highest priority customer request upon buttom press. priorityText is a variable that stores the highest priority request
     priorityText = tk.StringVar()
@@ -333,7 +337,7 @@ def hardware_view():
     hardware = tk.Toplevel(root)
     #title and size of new window
     hardware.title("Hardware View")
-    hardware.geometry("600x600")
+    hardware.geometry("800x600")
     
     #configure window so it is just one column
     hardware.grid_columnconfigure(0, weight=1)
@@ -347,7 +351,7 @@ def hardware_view():
     selected_listing.set("")
 
     #list to store created listings
-    listings = []
+    #listings = []
 
     #hardware label for field to input the type
     hardwareLabel = tk.Label(hardware, text="Type of Hardware", height=1)
