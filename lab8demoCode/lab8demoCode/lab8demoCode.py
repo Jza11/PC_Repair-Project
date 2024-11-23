@@ -65,11 +65,39 @@ def admin_view():
     admin.title("Admin View")
     admin.geometry("300x300")
     
+    admin.grid_columnconfigure(0, weight=1)
+
     selected_account = tk.StringVar()
     selected_account.set("")
+    selected_role = tk.StringVar()
+    selected_role.set("")
 
-    accounts = ttk.Combobox(admin, textvariable=selected_account, width=25, height=1)
-    accounts.grid(row=0, column=0)
+    usernameLabel = tk.Label(admin, text="Username",width=13, height=1)
+    usernameLabel.grid(row=0,column=0)
+    usernameInput = tk.Entry(admin, width=13)
+    usernameInput.grid(row=1, column=0)
+    passwordLabel = tk.Label(admin, text="Password", width=13, height=1)
+    passwordLabel.grid(row=2,column=0)
+    passwordInput = tk.Entry(admin, width=13)
+    passwordInput.grid(row=3, column=0)
+    roleLabel = tk.Label(admin, text="Role", width=13, height=1)
+    roleLabel.grid(row=4,column=0)
+    roleInput = ttk.Combobox(admin, textvariable=selected_role, width=13)
+    roleInput.grid(row=5, column=0)
+    roleInput['values'] = ['Admin', 'Technician', 'Customer']
+
+    accounts = ttk.Combobox(admin, textvariable=selected_account, width=26, height=1)
+    accounts.grid(row=6, column=0)
+
+    def addItem():
+        username = usernameInput.get()
+        password = passwordInput.get()
+        role = roleInput.get()
+
+        usernames.append(username)
+        passwords.append(password)
+        roles.append(role)
+        updateList()
 
     def deleteItem():
         username = selected_account.get()
@@ -82,19 +110,24 @@ def admin_view():
         selected_account.set("")
 
     def updateList():
-        dropdown_q = myQueue()
+        dropdownQ = myQueue()
         for i in range(len(usernames)):
-            dropdown_q.push(usernames[i] + " " + passwords[i] + " " + roles[i])
-        accounts['values'] = dropdown_q.contents()
+            dropdownQ.push(usernames[i] + " " + passwords[i] + " " + roles[i])
+        accounts['values'] = dropdownQ.contents()
+
+    createButton = tk.Button(admin, text="Create Account", command=addItem, width=26, height=1)
+    createButton.grid(row=7,column=0)
+
+   
 
     updateList()
 
 
-    deleteButton = tk.Button(admin, text="Delete Account", command=deleteItem, width=25, height=1)
-    deleteButton.grid(row=1,column=0)
+    deleteButton = tk.Button(admin, text="Delete Account", command=deleteItem, width=26, height=1)
+    deleteButton.grid(row=8,column=0)
 
 
-        
+    
 #technician window. Customers can view available technicians, and technicians can add themselves (would be separated functionalities in final product)
 def technician_view():
     #create new window
