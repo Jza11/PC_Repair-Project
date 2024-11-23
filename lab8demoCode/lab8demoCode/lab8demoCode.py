@@ -33,40 +33,96 @@ def customer_view():
     customer = tk.Toplevel(root)
     customer.title("Customer View")
     #geometry defines size of new window
-    customer.geometry("300x300")
+    customer.geometry("600x600")
 
     #configure layout of window so there is just one column
     customer.grid_columnconfigure(0, weight=1)
 
-    #create dropdown box with available technicians
-    BST = ttk.Combobox(customer, height=1)
-    BST.grid(row=2, column=0, sticky="ew", padx=40)
-
-    #fetch ordered list from btree
-    bstvalues = btree.getList()
-    #update dropdown box with ordered elements
-    BST['values'] = bstvalues
-
+    """
     #Create input field (text box) for adding new requests
     input = tk.Entry(customer)
     #order it in the window so it is topleft
     input.grid(row=0, column=0, sticky="ew", padx=40)
+    """
 
+    #create variables for dropdown menus so that you can access what ever option the user selects
+    selected_request = tk.StringVar()
+    selected_request.set("")
+    selected_condition = tk.StringVar()
+    selected_condition.set("")
+    selected_listing = tk.StringVar()
+    selected_listing.set("")
+
+    #hardware label for field to input the type
+    hardwareLabel = tk.Label(customer, text="Type of Request", height=1)
+    hardwareLabel.grid(row=0,column=0)
+    #hardware input box
+    hardwareInput = ttk.Combobox(customer, textvariable=selected_request, width=13)
+    hardwareInput.grid(row=1, column=0, sticky="ew", padx=40)
+    #hardware input box default values
+    hardwareInput['values'] = ['Software', 'Hardware']
+
+    #price label and input box
+    priceLabel = tk.Label(customer, text="Max Price Range ($)", height=1)
+    priceLabel.grid(row=2,column=0)
+    priceInput = tk.Entry(customer, width=13)
+    priceInput.grid(row=3, column=0, sticky="ew", padx=40)
+
+    #condition label and input box
+    conditionLabel = tk.Label(customer, text="Severity", height=1)
+    conditionLabel.grid(row=4,column=0)
+    conditionInput = ttk.Combobox(customer, textvariable=selected_condition, width=13)
+    conditionInput.grid(row=5, column=0, sticky="ew", padx=40)
+    #condition input box default values
+    conditionInput['values'] = ['1-Severe', '2-Medium', '3-Minor', '4-Unsure']
+
+    #contact label and contact input box
+    contactLabel = tk.Label(customer, text="Contact Information", height=1)
+    contactLabel.grid(row=6,column=0)
+    contactInput = tk.Entry(customer)
+    contactInput.grid(row=7, column=0, sticky="ew", padx=40)
+
+    #description label and input box
+    descriptionLabel = tk.Label(customer, text="Description", height=1)
+    descriptionLabel.grid(row=8,column=0)
+    descriptionInput = tk.Entry(customer)
+    descriptionInput.grid(row=9, column=0, sticky="ew", padx=40)
     
     #function to add new customer request after button press
     def addItem():
         #get item from string in textbox
-        item = input.get()
+        #item = input.get()
+        #get hardware, price, condition, etc from above input boxes
+        requestType = hardwareInput.get()
+        price= priceInput.get()
+        condition = conditionInput.get()
+        contact = contactInput.get()
+        description = descriptionInput.get()
+        item = requestType + " | $" + price + " | " + condition + " | " + contact + " | " + description
+        #add the new listing to the listings list
+        q.push(item)
+
         #push the item to the queue
-        q.push(item);
+        #q.push(item);
         #push the item to the heap
         heapArr.append(item)    
         #Update the drop down list
 
-
     #button for adding new customer requests
     button = tk.Button(customer, text="Add Request", command = addItem, height=1)
-    button.grid(row=1, column=0, sticky="ew", padx=40)
+    button.grid(row=10, column=0, sticky="ew", padx=40)
+
+    BSTLabel = tk.Label(customer, text="Available Technicians", height=1)
+    BSTLabel.grid(row=11,column=0, pady=(10,0))
+    #create dropdown box with available technicians
+    BST = tk.Listbox(customer)
+    BST.grid(row=12, column=0, sticky="sew", padx=40, pady=(0,20))
+
+    #fetch ordered list from btree
+    bstvalues = btree.getList()
+    #update dropdown box with ordered elements
+    for i in range(len(bstvalues)):
+        BST.insert(tk.END, bstvalues[i])
 
 #Admin window, where new accounts are created or deleted
 def admin_view():
