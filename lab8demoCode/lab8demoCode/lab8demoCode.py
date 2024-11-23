@@ -18,6 +18,8 @@ heap = myHeap()
 #heap array, used to create a heap, and find the topmost element for the highest priority customer request
 heapArr = []
 
+#create techinician dictionary. each key is the technician name or id. Each item is an array
+
 #Customer view window. Has the customer requests where customers can add requests and technicans can view them (in final project, these functionalities will be separated)
 def customer_view():
     #tk.toplevel creates a new window on top of root window
@@ -25,10 +27,16 @@ def customer_view():
     customer.title("Customer View")
     #geometry defines size of new window
     customer.geometry("300x300")
-    
 
     customer.grid_columnconfigure(0, weight=1)
 
+    #create dropdown box with available technicians
+    BST = ttk.Combobox(customer, width=16, height=1)
+    BST.grid(row=2, column=0)
+
+    bstvalues = btree.getList()
+    #update dropdown box with ordered elements
+    BST['values'] = bstvalues
 
     #Create input field (text box) for adding new requests
     input = tk.Entry(customer, width=16)
@@ -45,11 +53,6 @@ def customer_view():
         #push the item to the heap
         heapArr.append(item)    
         #Update the drop down list
-
-
-    #def updateQueue():
-
-
 
 
     #button for adding new customer requests
@@ -73,9 +76,7 @@ def technician_view():
     #create text box for input
     input = tk.Entry(technician, width=16)
     input.grid(row=0, column=0)
-    #create dropdown box with available technicians
-    BST = ttk.Combobox(technician, width=16, height=1)
-    BST.grid(row=2, column=0)
+
     #create a dropdown box with all the requests, ordered chronologically
     queue = ttk.Combobox(technician, width=16, height=1)
     queue.grid(row=3, column=0)
@@ -98,8 +99,6 @@ def technician_view():
         btree.insert(item)
         #order elements and put them in the cleared list
         btree.inOrder(btree.getRoot())
-        #update dropdown box with new elements
-        updateBST()
         
         #get the highest priority customer request (upon button press)
     def getPriority():
@@ -107,12 +106,6 @@ def technician_view():
         heap.buildHeap(heapArr)
         #Get the top most element and update the label
         priorityText.set(str(heapArr[0]))
-
-    def updateBST():
-        #get ordered list
-        bstvalues = btree.getList()
-        #update dropdown box with ordered elements
-        BST['values'] = bstvalues
 
     #Button to add new technicians
     button = tk.Button(technician, text="Add Technician", command = addItem, width=16, height=1)
@@ -123,8 +116,7 @@ def technician_view():
     priorityButton.grid(row=2, column=0)
 
     
-
-
+"""
 root = tk.Tk();
 root.title("Start Window")
 root.geometry("300x300")
@@ -140,5 +132,51 @@ technician_label = tk.Label(root, text="Open Technician View",width=16, height=1
 technician_label.grid(row=2, column=0)
 technician_button = tk.Button(root, command=technician_view, width=16, height=1)
 technician_button.grid(row=3, column=0)
+"""
+
+def login():
+    u = username_input.get()
+    p = password_input.get()
+
+    if u in usernames:
+        i = usernames.index(u)
+        print(i)
+
+        if p == passwords[i]:
+            print(roles[i])
+            openWindow(roles[i])
+            
+def openWindow(role):
+    if role == 'Admin':
+        print('open admin')
+    elif role == 'Technician':
+        technician_view()
+    elif role == 'Customer':
+        customer_view()
+
+usernames = ['admin1', 'technician1', 'customer1']
+passwords = ['adminpass', 'technicianpass', 'customerpass']
+roles = ['Admin', 'Technician', 'Customer']
+
+root = tk.Tk()
+root.title("Login Window")
+root.geometry("300x300")
+
+root.grid_columnconfigure(0, weight=1)
+
+username_label = tk.Label(root, text="Username", width=16, height=1)
+username_label.grid(row=0, column=0)
+username_input = tk.Entry(root, width=16)
+username_input.grid(row=1, column=0)
+
+password_label = tk.Label(root, text="Password", width=16, height=1)
+password_label.grid(row=2, column=0)
+password_input = tk.Entry(root, show="*", width=16)
+password_input.grid(row=3, column=0)
+
+login_button = tk.Button(root, text="Login", command = login, width = 16, height=1)
+login_button.grid(row=4, column=0)
+
+
 
 root.mainloop()
