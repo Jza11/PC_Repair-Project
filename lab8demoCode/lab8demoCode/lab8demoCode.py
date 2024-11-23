@@ -5,7 +5,7 @@
 #and same with technicians, they upload their listing with their price and contact information, and then the communication
 #can be facilitated elsewhere
 
-#USERNAMES AND PASSWORDS ARE: admin1:adminpass, technician1:technicianpass, customer1:customerpass
+#USERNAMES AND PASSWORDS ARE: admin1:apass, tech1:tpass, cust1:cpass
 
 #tkinter is used for GUI
 import tkinter as tk
@@ -18,14 +18,34 @@ from myQueue import myQueue
 from myBST import myBST
 from myHeap import myHeap
 
+"""
+1-Learning | Software | $200 | tomj@gmail.com | Operating system installations or troubleshooting
+3-Experienced | Software | $120 | bobsmith@gmail.com | BIOS configuration or troubleshooting
+4-Novice | Hardware | $150 | juniorsmith@gmail.com | GPU/CPU installation, hardware troubleshooting
+
+4-Severe | Software | $80 | | bobbybobby@gmail.com | My computer screen is blue and it doesnt turn on after that
+2-Unsure | Hardware | $120 | joesmithy@gmail.com | My computer fans arent running and it is very hot
+1-Minor | Software | $80 | fireonmycomputer@gmail.com | My computer is on fire right now
+"""
+#DATA STRUCTURE WITH SAMPLE DATA
 #queue data structure used for chronological order of customer requests, and accounts created (in admin view)
 q = myQueue()
+q.push("4-Severe | Software | $80 | bobbybobby@gmail.com | My computer screen is blue and it doesnt turn on after that")
+q.push("2-Unsure | Hardware | $120 | joesmithy@gmail.com | My computer fans arent running and it is very hot")
+q.push("1-Minor | Software | $80 | fireonmycomputer@gmail.com | My computer is on fire right now")
 #binary tree data structure, used for sorting available technicians by their rating
 btree = myBST()
+btree.insert("1-Learning | Software | $200 | tomj@gmail.com | Operating system installations or troubleshooting")
+btree.insert("3-Experienced | Software | $120 | bobsmith@gmail.com | BIOS configuration or troubleshooting")
+btree.insert("4-Novice | Hardware | $150 | juniorsmith@gmail.com | GPU/CPU installation, hardware troubleshooting")
+btree.inOrder(btree.getRoot())
 #heap function class, used for manipulating the heapArr (heap array) (viewing highest priority customer request)
 heap = myHeap()
 #heap array, used to create a heap, and find the topmost element for the highest priority customer request
-heapArr = []
+heapArr = ["4-Severe | Software | $80 | bobbybobby@gmail.com | My computer screen is blue and it doesnt turn on after that",
+           "2-Unsure | Hardware | $120 | joesmithy@gmail.com | My computer fans arent running and it is very hot",
+           "1-Minor | Software | $80 | fireonmycomputer@gmail.com | My computer is on fire right now"]
+heap.buildHeap(heapArr)
 
 #Customer view window. Has the customer requests where customers can add requests and view technicians
 def customer_view():
@@ -38,13 +58,6 @@ def customer_view():
     #configure layout of window so there is just one column
     customer.grid_columnconfigure(0, weight=1)
 
-    """
-    #Create input field (text box) for adding new requests
-    input = tk.Entry(customer)
-    #order it in the window so it is topleft
-    input.grid(row=0, column=0, sticky="ew", padx=40)
-    """
-
     #create variables for dropdown menus so that you can access what ever option the user selects
     selected_request = tk.StringVar()
     selected_request.set("")
@@ -54,13 +67,13 @@ def customer_view():
     selected_listing.set("")
 
     #hardware label for field to input the type
-    hardwareLabel = tk.Label(customer, text="Type of Request", height=1)
-    hardwareLabel.grid(row=0,column=0)
+    requestLabel = tk.Label(customer, text="Type of Request", height=1)
+    requestLabel.grid(row=0,column=0)
     #hardware input box
-    hardwareInput = ttk.Combobox(customer, textvariable=selected_request, width=13)
-    hardwareInput.grid(row=1, column=0, sticky="ew", padx=40)
+    requestInput = ttk.Combobox(customer, textvariable=selected_request, width=13)
+    requestInput.grid(row=1, column=0, sticky="ew", padx=40)
     #hardware input box default values
-    hardwareInput['values'] = ['Software', 'Hardware']
+    requestInput['values'] = ['Software', 'Hardware']
 
     #price label and input box
     priceLabel = tk.Label(customer, text="Max Price Range ($)", height=1)
@@ -74,7 +87,7 @@ def customer_view():
     conditionInput = ttk.Combobox(customer, textvariable=selected_condition, width=13)
     conditionInput.grid(row=5, column=0, sticky="ew", padx=40)
     #condition input box default values
-    conditionInput['values'] = ['1-Severe', '2-Medium', '3-Minor', '4-Unsure']
+    conditionInput['values'] = ['1-Minor', '2-Unsure', '3-Medium', '4-Severe']
 
     #contact label and contact input box
     contactLabel = tk.Label(customer, text="Contact Information", height=1)
@@ -93,12 +106,12 @@ def customer_view():
         #get item from string in textbox
         #item = input.get()
         #get hardware, price, condition, etc from above input boxes
-        requestType = hardwareInput.get()
+        requestType = requestInput.get()
         price= priceInput.get()
         condition = conditionInput.get()
         contact = contactInput.get()
         description = descriptionInput.get()
-        item = requestType + " | $" + price + " | " + condition + " | " + contact + " | " + description
+        item = condition + " | " + requestType + " | $" + price + " | " + contact + " | " + description
         #add the new listing to the listings list
         q.push(item)
 
@@ -234,7 +247,7 @@ def technician_view():
     #create new window
     technician = tk.Toplevel(root)
     technician.title("Technician View")
-    technician.geometry("300x300")
+    technician.geometry("600x600")
 
     #Will display highest priority customer request upon buttom press. priorityText is a variable that stores the highest priority request
     priorityText = tk.StringVar()
@@ -242,13 +255,70 @@ def technician_view():
 
     technician.grid_columnconfigure(0, weight=1)
     #create text box for input
-    inputLabel = tk.Label(technician,text="Add New Service", height=1)
-    inputLabel.grid(row=0, column=0)
-    input = tk.Entry(technician)
-    input.grid(row=1, column=0, sticky="ew", padx=40)
+    #inputLabel = tk.Label(technician,text="Add New Service", height=1)
+    #inputLabel.grid(row=0, column=0)
+   # input = tk.Entry(technician)
+    #input.grid(row=1, column=0, sticky="ew", padx=40)
 
+    #create variables for dropdown menus so that you can access what ever option the user selects
+    selected_request = tk.StringVar()
+    selected_request.set("")
+    selected_condition = tk.StringVar()
+    selected_condition.set("")
+    selected_listing = tk.StringVar()
+    selected_listing.set("")
 
+    #hardware label for field to input the type
+    serviceLabel = tk.Label(technician, text="Type of Service", height=1)
+    serviceLabel.grid(row=0,column=0)
+    #hardware input box
+    serviceInput = ttk.Combobox(technician, textvariable=selected_request, width=13)
+    serviceInput.grid(row=1, column=0, sticky="ew", padx=40)
+    #hardware input box default values
+    serviceInput['values'] = ['Software', 'Hardware']
 
+    #price label and input box
+    priceLabel = tk.Label(technician, text="Approx. Service Price ($)", height=1)
+    priceLabel.grid(row=2,column=0)
+    priceInput = tk.Entry(technician)
+    priceInput.grid(row=3, column=0, sticky="ew", padx=40)
+
+    #condition label and input box
+    conditionLabel = tk.Label(technician, text="Rating", height=1)
+    conditionLabel.grid(row=4,column=0)
+    conditionInput = ttk.Combobox(technician, textvariable=selected_condition, width=13)
+    conditionInput.grid(row=5, column=0, sticky="ew", padx=40)
+    #condition input box default values
+    conditionInput['values'] = ['1-Learning', '2-Intermediate', '3-Experienced', '4-Novice', '5-Professional']
+
+    #contact label and contact input box
+    contactLabel = tk.Label(technician, text="Contact Information", height=1)
+    contactLabel.grid(row=6,column=0)
+    contactInput = tk.Entry(technician)
+    contactInput.grid(row=7, column=0, sticky="ew", padx=40)
+
+    #description label and input box
+    descriptionLabel = tk.Label(technician, text="Description", height=1)
+    descriptionLabel.grid(row=8,column=0)
+    descriptionInput = tk.Entry(technician)
+    descriptionInput.grid(row=9, column=0, sticky="ew", padx=40)
+    
+    #function to add new customer request after button press
+    def addItem():
+        #get item from string in textbox
+        #item = input.get()
+        #get hardware, price, condition, etc from above input boxes
+        serviceType = serviceInput.get()
+        price= priceInput.get()
+        condition = conditionInput.get()
+        contact = contactInput.get()
+        description = descriptionInput.get()
+        item = condition + " | " + serviceType + " | $" + price + " | " + contact + " | " + description
+        btree.clearList()
+        btree.insert(item)
+        btree.inOrder(btree.getRoot())
+
+    """
         #function to add item
     def addItem():
         #get text from textbox
@@ -259,7 +329,8 @@ def technician_view():
         btree.insert(item)
         #order elements and put them in the cleared list
         btree.inOrder(btree.getRoot())
-        
+     """
+
         #get the highest priority customer request (upon button press)
     def getPriority():
         #build the heap from the array
@@ -269,26 +340,27 @@ def technician_view():
 
     #Button to add new technicians
     button = tk.Button(technician, text="Add Service", command = addItem, height=1)
-    button.grid(row=2, column=0, sticky="ew", padx=40)
+    button.grid(row=10, column=0, sticky="ew", padx=40)
 
     queueLabel = tk.Label(technician,text="Customer Requests", height=1)
-    queueLabel.grid(row=3, column=0)
+    queueLabel.grid(row=11, column=0)
     #create a dropdown box with all the requests, ordered chronologically
-    queue = ttk.Combobox(technician, height=1)
-    queue.grid(row=4, column=0, sticky="ew", padx=40)
+    queue = tk.Listbox(technician)
+    queue.grid(row=12, column=0, sticky="ew", padx=40)
 
     #Text label to output the highest priority customer request
     priorityLabel = tk.Label(technician,textvariable = priorityText, height=1)
-    priorityLabel.grid(row=5, column=0)
+    priorityLabel.grid(row=13, column=0)
 
     #fetch items in the queue into queuevalues variable
     queuevalues = q.contents()
     #update the dropdown box contents with the queue contents
-    queue['values'] = queuevalues
+    for i in range(len(queuevalues)):
+        queue.insert(tk.END, queuevalues[i])
 
     #button for getting highest priority requests
     priorityButton = tk.Button(technician, text="Get Priority", command=getPriority, height=1)
-    priorityButton.grid(row=6, column=0, sticky="ew", padx=40)
+    priorityButton.grid(row=14, column=0, sticky="ew", padx=40)
 
 #hardware menu to buy and sell hardware (view hardware and contact seller outside the app)
 def hardware_view():
@@ -433,8 +505,8 @@ def openWindow(role):
         customer_view()
 
 #username, password, and roles array. index based, so username[0]'s password is password[0] and has role[0]
-usernames = ['admin1', 'technician1', 'customer1']
-passwords = ['adminpass', 'technicianpass', 'customerpass']
+usernames = ['admin1', 'tech1', 'cust1']
+passwords = ['apass', 'tpass', 'cpass']
 roles = ['Admin', 'Technician', 'Customer']
 
 #root window
