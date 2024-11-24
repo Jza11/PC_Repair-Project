@@ -17,6 +17,130 @@ from tkinter import ttk
 from myQueue import myQueue
 from myBST import myBST
 from myHeap import myHeap
+#Resources needed for the creation of the database
+import sqlite3
+
+#Generation of Database with the tables needed for the current project.
+def Database_Creation():
+    
+    PC_Repair_Connection=sqlite3.connect("PC_Repair.db")
+    #Creation of Cursor to use SQL statements and fetch from the table.  
+    cur=PC_Repair_Connection.cursor()
+    #First Table is the User one. First, check if there was already a user table built
+    #if that is the case, drop the table. Not optimal to have two tables with the same name. 
+    cur.execute("DROP TABLE IF EXIST user_t")
+    #After checking if there was an old table, create the new version
+    cur.execute("""CREATE TABLE IF NOT EXISTS user_t(u_id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                                                    username TEXT,                  
+                                                    password TEXT, 
+                                                    Class TEXT);""")
+    #Second table is the Request one. Repeat the same process as the previous one.
+    cur.execute("DROP TABLE IF EXISTS request_t")
+    cur.excute("""CREATE TABLE IF NOT EXISTS request_t(r_id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                                                       severity_degree TEXT,
+                                                       type_request TEXT,
+                                                       price Numeric(4,1), 
+                                                       u_email TEXT,
+                                                       explanation TEXT
+                                                       );""")
+    #Third Table is for the technicians. Repeat the same process as the previous table.
+    cur.execute("DROP TABLE IF EXISTS technician_t")
+    cur.execute(""" CREATE TABLE IF NOT EXISTS technician_t(t_id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                                                            rating INTEGER, 
+                                                            exp_lvl TEXT, 
+                                                            t_email TEXT,
+                                                           Work_Field TEXT);""")
+    
+    #Fourth table is for the hardware. Repeat the same process as the previous table.
+    cur.execute("DROP TABLE IF EXISTS hardware_t")
+    cur.execute(""" CREATE TABLE IF NOT EXISTS hardware_t(hardware_id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                                                          type TEXT, 
+                                                          price NUMERIC(4,1), 
+                                                          condition TEXT, 
+                                                          contact_email TEXT, 
+                                                          description TEXT);""")
+    
+    #To apply the changes into the database, it is needed to commit them.
+    PC_Repair_Connection.commit()
+    #After all the changes are done, the connection with the database should be close. 
+    PC_Repair_Connection.close()
+
+#This function takes as an input an array that represent all the data fields inside the table example data=["Zaf", GFTYS9, Admin]
+#and then insert the values into the table so that the data is stored and saved.
+def Add_User_db(data): 
+    
+    #Connection to the dabase 
+    PC_Repair_Connection=sqlite3.connect("PC_Repair.db")
+    
+    #Implementation of cursor
+    cur=PC_Repair_Connection.cursor()
+    
+    #Insert statement to add the information of the user 
+    cur.execute("""INSERT INTO TABLE user_t(username, password, class) VALUES (?, ?, ?)""", data)
+
+    #Commiting all the changes done to the tables and the database
+    PC_Repair_Connection.commit()
+    
+    #After all the changes are done, the database connection need to be closed. 
+    PC_Repair_Connection.close()
+
+def Add_request_db(request_information):
+    
+    #Connection to the database
+    PC_repair_Connection=sqlite3.connect("PC_Repair.db")
+    
+    #Cursor Creation to navigate into the tuples of the table
+    cur=PC_repair_Connection.cursor()
+
+    #Statement for the insertion of data inside the request table, taking argument as follows:
+    #request_information("Severe, Hardware, 200.2, josemjgsg@gmail.com, My computer got fried")
+    cur.execute("""INSERT INTO TABLE request_t(severity_degree, type_request, price, u_email, explanation) 
+                                     VALUES (?, ?, ?, ?, ?)""", request_information)
+    #Commiting all the changes into the database
+    
+    PC_Repair_Connection.commit()
+    
+    #After all the changes were done, the database connection is closed
+    PC_Repair_Connection.close()
+
+def Add_technician_db(technician_info):
+    
+    #Connection to the database
+    PC_repair_Connection=sqlite3.connect("PC_Repair.db")
+    
+    #Cursor Creation to navigate into the tuples of the table
+    cur=PC_repair_Connection.cursor()
+    
+    #Statement to enter the information from the technician in such a way that 
+    #Technician_info=[5, Novice, worker12@gmail, Operating system of Computer]
+    cur.execute("""INSERT INTO TABLE technician_t(rating, exp_lvl, e_email, Work_Field) VALUES (?,?,?,?) """, technician_info)
+    
+    #Commiting all the changes into the database
+    PC_Repair_Connection.commit()
+    
+    #After all the changes were done, the database connection is closed
+    PC_Repair_Connection.close()
+
+def Add_hardware_db(hardware_info):
+    
+    #Connection to the database
+    PC_repair_Connection=sqlite3.connect("PC_Repair.db")
+    
+    #Cursor Creation to navigate into the tuples of the table
+    cur=PC_repair_Connection.cursor()
+
+    #statemnet to enter the information for the hardware piece inside the datavase, in such a way that 
+    #hardware_info=[Monitor, 130.1, New, arigatoEnt@gmail, Monitor to play any videogame in good quality]
+    cur.execute("""INSERT INTO TABLE hardware_t(type, price, condition, contact_email, description) 
+                                      VALUES (?,?,?,?,?)""", hardware_info)
+    
+    #Commiting all the changes into the database
+    PC_Repair_Connection.commit()
+    
+    #After all the changes were done, the database connection is closed
+    PC_Repair_Connection.close()
+
+
 
 #DATA STRUCTURES WITH SAMPLE DATA
 #queue data structure used for chronological order of customer requests, and accounts created (in admin view)
