@@ -22,6 +22,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="lab8demoCode.py" />
+    <Compile Include="Database running.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="myBST.py">
       <SubType>Code</SubType>
     </Compile>
