@@ -106,7 +106,7 @@ def eliminate_user_db(username):
     cur=PC_Repair_Connection.cursor()
 
     #Statement to eliminate the usename from the database
-    cur.execute("""DELETE FROM user_t WHERE username=?""", username)
+    cur.execute("""DELETE FROM user_t WHERE username=?""", (username,))
     
     #Commiting all the changes into the database
     PC_Repair_Connection.commit()
@@ -329,9 +329,12 @@ def admin_view():
 
     #update the list
     def updateList():
+        
         #create a new queue object
         dropdownQ = myQueue()
-        #loop through all usernames, add to the new queue a string which contains username and associated password and role
+        #Update the values into tge Users_info variable
+        Users_Info=User_Get_Values_from_db()
+        #loop through all usernames, add to the new queue a string which contains username and role associated with it.
         for row in Users_Info:
             dropdownQ.push(row[1] + " " + row[3])
         #update accounts dropdown box with queue contents
@@ -549,9 +552,9 @@ def hardware_view():
     def updateList():
         #clear the old listingbox (delete elements from 0 to the end)
         listingsListBox.delete(0, tk.END)
-        for i in range(len(listings)):
+        #for i in range(len(listings)):
             #loop through and insert new listings starting at the end of the listingbox
-            listingsListBox.insert(tk.END, listings[i])
+            #listingsListBox.insert(tk.END, listings[i])
 
     #button to create listings
     createButton = tk.Button(hardware, text="Add Listing", command=addItem, height=1)
