@@ -39,7 +39,7 @@ def Add_User_db(data):
     
     #After all the changes are done, the database connection need to be closed. 
     PC_Repair_Connection.close()
-
+#this function add
 def Add_request_db(request_information):
     
     #Connection to the database
@@ -58,7 +58,7 @@ def Add_request_db(request_information):
     
     #After all the changes were done, the database connection is closed
     PC_Repair_Connection.close()
-
+#This is to add a tuple to the technician table
 def Add_technician_db(technician_info):
     
     #Connection to the database
@@ -77,7 +77,7 @@ def Add_technician_db(technician_info):
     
     #After all the changes were done, the database connection is closed
     PC_Repair_Connection.close()
-
+#this function is to add a tuple to the hardware table
 def Add_hardware_db(hardware_info):
     
     #Connection to the database
@@ -598,7 +598,9 @@ def openWindow(role):
 
 Users_Info=User_Get_Values_from_db()
 
-
+usernames = ['admin1', 'tech1', 'cust1']
+passwords = ['apass', 'tpass', 'cpass']
+roles = ['Admin', 'Technician', 'Customer']
 
 #root window
 root = tk.Tk()
