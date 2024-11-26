@@ -296,33 +296,24 @@ def admin_view():
         #user info is stored into the database
         Add_User_db(username_info)
 
-        #put collected values into the username,password,and role lists (defined below by the root window)
-        usernames.append(username)
-        passwords.append(password)
-        roles.append(role)
         #update the drop down of all accounts to reflect the new account
         updateList()
+        #Function to update the input boxes so that they reset everytime the button is pressed
+        Update_input()
+
+
 
     #delete accounts
     def deleteItem():
-        #get the selected account from the dropdown box (in format of 'username password role')
+        #get the selected account from the dropdown box (in format of 'username role')
         username = selected_account.get()
-        #split the string into a list based on where the spaces are (in format of username = ['username', 'password', 'role']),
+        #split the string into a list based on where the spaces are (in format of username = ['username', 'role']),
         #and then get the first index of this list (username[0]) (which will just be the username component)
         username = username.split(" ")[0]
 
         #Eliminate user from the database
         eliminate_user_db(username)
-
-        #find the index of the username in the usernames list
-        index = usernames.index(username)
-        #remove the username from the usernames list
-        usernames.pop(index)
-        #remove the associated password from the passwords array
-        passwords.pop(index)
-        #remove the associated role from the roles array
-        roles.pop(index)
-        #update the dropdown box to reflect these changes
+        #Update for the Combobox.
         updateList()
         #reset the dropdown box so the deleted account is no longer selected
         selected_account.set("")
@@ -340,9 +331,16 @@ def admin_view():
         #update accounts dropdown box with queue contents
         accounts['values'] = dropdownQ.contents()
 
+    def Update_input():
+        selected_role.set("")
+        passwordInput.delete(0, tk.END)
+        usernameInput.delete(0, tk.END)
+
+
     #button to create accounts. when it is pressed then run the 'addItem' function
     createButton = tk.Button(admin, text="Create Account", command=addItem, height=1)
     createButton.grid(row=6,column=0, sticky="ew", padx=40)
+
 
 
     accountsLabel = tk.Label(admin, text="Accounts", height=1)
