@@ -68,7 +68,8 @@ def Add_technician_db(technician_info):
     
     #Statement to enter the information from the technician in such a way that 
     #Technician_info=[5, Novice, worker12@gmail, Operating system of Computer]
-    cur.execute("""INSERT INTO technician_t(rating, exp_lvl, e_email, Work_Field) VALUES (?,?,?,?) """, technician_info)
+    cur.execute("""INSERT INTO technician_t(Service_type, price_aprox, rating, contact_info, description) 
+                                      VALUES (?,?,?,?,?) """, technician_info)
     
     #Commiting all the changes into the database
     PC_Repair_Connection.commit()
@@ -410,7 +411,7 @@ def technician_view():
         item = condition + " | " + serviceType + " | $" + price + " | " + contact + " | " + description
         
         #Array to store the values of the desired datafields 
-        technician_info=[condition, serviceType, price, contact, description]
+        technician_info=[serviceType, price, condition ,contact, description]
         #Add user to the database
         Add_technician_db(technician_info)
 
