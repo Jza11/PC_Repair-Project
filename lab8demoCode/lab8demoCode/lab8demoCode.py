@@ -31,7 +31,7 @@ def Add_User_db(data):
     cur=PC_Repair_Connection.cursor()
     
     #Insert statement to add the information of the user 
-    cur.execute("""INSERT INTO TABLE user_t(username, password, class) VALUES (?, ?, ?)""", data)
+    cur.execute("""INSERT INTO user_t(username, password, class) VALUES (?, ?, ?)""", data)
 
     #Commiting all the changes done to the tables and the database
     PC_Repair_Connection.commit()
@@ -42,14 +42,14 @@ def Add_User_db(data):
 def Add_request_db(request_information):
     
     #Connection to the database
-    PC_repair_Connection=sqlite3.connect("PC_Repair.db")
+    PC_Repair_Connection=sqlite3.connect("PC_Repair.db")
     
     #Cursor Creation to navigate into the tuples of the table
-    cur=PC_repair_Connection.cursor()
+    cur=PC_Repair_Connection.cursor()
 
     #Statement for the insertion of data inside the request table, taking argument as follows:
     #request_information("Severe, Hardware, 200.2, josemjgsg@gmail.com, My computer got fried")
-    cur.execute("""INSERT INTO TABLE request_t(severity_degree, type_request, price, u_email, explanation) 
+    cur.execute("""INSERT INTO request_t(severity_degree, type_request, price, u_email, explanation) 
                                      VALUES (?, ?, ?, ?, ?)""", request_information)
     #Commiting all the changes into the database
     
@@ -61,14 +61,14 @@ def Add_request_db(request_information):
 def Add_technician_db(technician_info):
     
     #Connection to the database
-    PC_repair_Connection=sqlite3.connect("PC_Repair.db")
+    PC_Repair_Connection=sqlite3.connect("PC_Repair.db")
     
     #Cursor Creation to navigate into the tuples of the table
-    cur=PC_repair_Connection.cursor()
+    cur=PC_Repair_Connection.cursor()
     
     #Statement to enter the information from the technician in such a way that 
     #Technician_info=[5, Novice, worker12@gmail, Operating system of Computer]
-    cur.execute("""INSERT INTO TABLE technician_t(rating, exp_lvl, e_email, Work_Field) VALUES (?,?,?,?) """, technician_info)
+    cur.execute("""INSERT INTO technician_t(rating, exp_lvl, e_email, Work_Field) VALUES (?,?,?,?) """, technician_info)
     
     #Commiting all the changes into the database
     PC_Repair_Connection.commit()
@@ -79,14 +79,14 @@ def Add_technician_db(technician_info):
 def Add_hardware_db(hardware_info):
     
     #Connection to the database
-    PC_repair_Connection=sqlite3.connect("PC_Repair.db")
+    PC_Repair_Connection=sqlite3.connect("PC_Repair.db")
     
     #Cursor Creation to navigate into the tuples of the table
-    cur=PC_repair_Connection.cursor()
+    cur=PC_Repair_Connection.cursor()
 
     #statemnet to enter the information for the hardware piece inside the datavase, in such a way that 
     #hardware_info=[Monitor, 130.1, New, arigatoEnt@gmail, Monitor to play any videogame in good quality]
-    cur.execute("""INSERT INTO TABLE hardware_t(type, price, condition, contact_email, description) 
+    cur.execute("""INSERT INTO hardware_t(type, price, condition, contact_email, description) 
                                       VALUES (?,?,?,?,?)""", hardware_info)
     
     #Commiting all the changes into the database
@@ -94,7 +94,23 @@ def Add_hardware_db(hardware_info):
     
     #After all the changes were done, the database connection is closed
     PC_Repair_Connection.close()
+#Function to eliminate a username from the database.
+def eliminate_user(username):
+   
+   #Connection to the database
+    PC_Repair_Connection=sqlite3.connect("PC_Repair.db")
+    
+    #Cursor Creation to navigate into the tuples of the table
+    cur=PC_Repair_Connection.cursor()
 
+    #Statement to eliminate the usename from the database
+    cur.execute("""DELETE FROM user_t WHERE username=?""", username)
+    
+    #Commiting all the changes into the database
+    PC_Repair_Connection.commit()
+    
+    #After all the changes were done, the database connection is closed
+    PC_Repair_Connection.close()
 
 
 #DATA STRUCTURES WITH SAMPLE DATA
