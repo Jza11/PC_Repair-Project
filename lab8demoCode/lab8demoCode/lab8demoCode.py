@@ -182,6 +182,14 @@ def Build_technician_data(data_technician):
         formated_data.append(new_row)
     return formated_data
 
+def Build_Hardware_data(data_hardware):
+    #Array that will store the data in the desired format
+    formated_data=[]
+    for row in data_hardware:
+        new_row=row[1]+"|"+str(row[2])+"|"+row[3]+"|"+row[4]+"|"+row[5]
+        formated_data.append(new_row)
+    return formated_data
+
 #DATA STRUCTURES WITH SAMPLE DATA
 #queue data structure used for chronological order of customer requests, and accounts created (in admin view)
 q = myQueue()
@@ -191,9 +199,9 @@ btree = myBST()
 #heap function class, used for manipulating the heapArr (heap array) (viewing highest priority customer request)
 heap = myHeap()
 # hardwareType + " | $" + price + " | " + condition + " | " + contact + " | " + description
-listings = ["Monitor | 180 | Like New | bob@gmail.com | acer 27 inch monitor fcfs",
-            "GPU | 220 | Good | redsam@gmail.com | nvidia gtx 970 runs well and cool",
-            "Motherboard | 100 | Used | joeyman21@gmail.com | acer motherboard. not sure what model",]
+#listings = ["Monitor | 180 | Like New | bob@gmail.com | acer 27 inch monitor fcfs",
+            #"GPU | 220 | Good | redsam@gmail.com | nvidia gtx 970 runs well and cool",
+            #"Motherboard | 100 | Used | joeyman21@gmail.com | acer motherboard. not sure what model",]
 
 #Customer view window. Has the customer requests where customers can add requests and view technicians
 def customer_view():
@@ -549,7 +557,10 @@ def technician_view():
 
 #hardware menu to buy and sell hardware (view hardware and contact seller outside the app)
 def hardware_view():
+    Current_request=Hardware_Values_from_db()
+    listings=Build_Hardware_data(Current_request)
     #create hardware window on top of root (main window)
+
     hardware = tk.Toplevel(root)
     #title and size of new window
     hardware.title("Hardware View")
@@ -618,21 +629,26 @@ def hardware_view():
 
         #Call function to store the array inside the database
         Add_hardware_db(hardware_info)
-
-
-
-        #add the new listing to the listings list
-        listings.append(hardwareType + " | $" + price + " | " + condition + " | " + contact + " | " + description)
-        #update the listingbox(defined below) to reflect changes
         updateList()
+        Update_Input_Hardware()
 
     #update the listing box with new list values
     def updateList():
         #clear the old listingbox (delete elements from 0 to the end)
         listingsListBox.delete(0, tk.END)
-        #for i in range(len(listings)):
+        for i in range(len(listings)):
             #loop through and insert new listings starting at the end of the listingbox
-            #listingsListBox.insert(tk.END, listings[i])
+            listingsListBox.insert(tk.END, listings[i])
+    
+    def Update_Input_Hardware():
+        selected_hardware.set("")
+        priceInput.delete(0, tk.END)
+        selected_condition.set("")
+        contactInput.delete(0, tk.END)
+        descriptionInput.delete(0, tk.END)
+
+
+
 
     #button to create listings
     createButton = tk.Button(hardware, text="Add Listing", command=addItem, height=1)
@@ -646,6 +662,8 @@ def hardware_view():
     listingsListBox.grid(row=12, column=0, sticky="ews", padx=40, pady=(10,20))
 
     updateList()
+    
+
 
 #Main root window & functions
 #login function. run when login button is pressed. checks if username and password match existing one
