@@ -8,6 +8,7 @@
 #USERNAMES AND PASSWORDS ARE: admin1:apass, tech1:tpass, cust1:cpass
 
 #tkinter is used for GUI
+from pickle import FALSE, TRUE
 import tkinter as tk
 #messagebox is currently unused but would be used for popup errors/warnings
 from tkinter import messagebox
@@ -112,6 +113,13 @@ def eliminate_user_db(username):
     
     #After all the changes were done, the database connection is closed
     PC_Repair_Connection.close()
+
+def User_Get_Values_from_db():
+    PC_Repair_Con=sqlite3.connect("PC_Repair.db")
+    cur=PC_Repair_Con.cursor()
+    statement=cur.execute("""SELECT * FROM user_t""")
+    data_user=statement.fetchall()
+    return data_user
 
 
 #DATA STRUCTURES WITH SAMPLE DATA
@@ -564,17 +572,22 @@ def login():
     #get username and password from username and password input (both defined below)
     u = username_input.get()
     p = password_input.get()
+    
+    checking_login=FALSE
+    
+    for row in Users_Info:
+        if row[1]==u:
+            if row[2]==p:
+                checking_login=TRUE
+                role=row[3]
 
-    #check if username exists in the usernames list (also defined below)
-    if u in usernames:
-        #if it exists, find the index
-        i = usernames.index(u)
-        print(i)
-        # if the password matches the same index that the username was found at, then open the corresponding role
-        if p == passwords[i]:
-            print(roles[i])
-            openWindow(roles[i])
-#check the role of hte user, and open the corresponding window
+
+    if checking_login==TRUE:
+        print(role)
+        openWindow(role)
+    else:
+        print("Incorrect Information. Please verify it")
+
 def openWindow(role):
     if role == 'Admin':
         admin_view()
@@ -583,10 +596,9 @@ def openWindow(role):
     elif role == 'Customer':
         customer_view()
 
-#username, password, and roles array. index based, so username[0]'s password is password[0] and has role[0]
-usernames = ['admin1', 'tech1', 'cust1']
-passwords = ['apass', 'tpass', 'cpass']
-roles = ['Admin', 'Technician', 'Customer']
+Users_Info=User_Get_Values_from_db()
+
+
 
 #root window
 root = tk.Tk()
