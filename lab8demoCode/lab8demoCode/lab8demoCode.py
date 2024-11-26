@@ -332,8 +332,8 @@ def admin_view():
         #create a new queue object
         dropdownQ = myQueue()
         #loop through all usernames, add to the new queue a string which contains username and associated password and role
-        for i in range(len(usernames)):
-            dropdownQ.push(usernames[i] + " " + passwords[i] + " " + roles[i])
+        for row in Users_Info:
+            dropdownQ.push(row[1] + " " + row[3])
         #update accounts dropdown box with queue contents
         accounts['values'] = dropdownQ.contents()
 
