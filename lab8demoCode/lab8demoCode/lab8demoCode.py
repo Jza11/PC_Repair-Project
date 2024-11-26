@@ -9,6 +9,7 @@
 
 #tkinter is used for GUI
 from pickle import FALSE, TRUE
+import re
 import tkinter as tk
 #messagebox is currently unused but would be used for popup errors/warnings
 from tkinter import messagebox
@@ -113,34 +114,82 @@ def eliminate_user_db(username):
     
     #After all the changes were done, the database connection is closed
     PC_Repair_Connection.close()
-
+#Function to get all user information from the database 
 def User_Get_Values_from_db():
+    #Connection with the database
     PC_Repair_Con=sqlite3.connect("PC_Repair.db")
+    #Creation of the cursor
     cur=PC_Repair_Con.cursor()
+    #Statement to execute
     statement=cur.execute("""SELECT * FROM user_t""")
+    #Getting all the values from the query
     data_user=statement.fetchall()
+    #Return all the tuples
     return data_user
+#Function to get all hardware information from the database
+def Hardware_Values_from_db():
+    #Connection with the database
+    PC_Repair_Con=sqlite3.connect("PC_Repair.db")
+    #Creation of the cursor
+    cur=PC_Repair_Con.cursor()
+    #Statement to be executed
+    statement=cur.execute("""SELECT * FROM hardware_t""")
+    #Getting all the values from the query
+    data_hardware=statement.fetchall()
+    #Return all the tuples
+    return data_hardware
+#Function to get all tecnician services from the database
+def Technician_Values_from_db():
+     #Connection with the database
+    PC_Repair_Con=sqlite3.connect("PC_Repair.db")
+    #Creation of the cursor
+    cur=PC_Repair_Con.cursor()
+    #Statement to be executed
+    statement=cur.execute("""SELECT * FROM technician_t""")
+    #Getting all the values from the query
+    data_technician=statement.fetchall()
+    #Return all the tuples
+    return data_technician
+#Function to get all requests from the database
+def Requests_Values_from_db():
+    #Connection with the database
+    PC_Repair_Con=sqlite3.connect("PC_Repair.db")
+    #Creation of the cursor
+    cur=PC_Repair_Con.cursor()
+    #Statement to be executed
+    statement=cur.execute("""SELECT * FROM request_t""")
+    #Getting all the values from the query
+    data_requests=statement.fetchall()
+    #Return all the tuples
+    return data_requests
 
+def Build_Customer_request_format(data_request):
+    #Array that will take all the strings with the data fields combined
+    formated_data=[]
+    for row in data_request:
+        #row[1]=Severity, row[2]=requet_type, row[3]=Price_offered, row[4]=Contact_info and row[5]=Problem_Description
+        new_row=row[1] + "|" + row[2] + "|" + str(row[3]) +"$ |" + row[4] + "|" + row[5]
+        #Adding the new_row of the current iteration to the array
+        formated_data.append(new_row)
+    return formated_data
+
+def Build_technician_data(data_technician):
+    #Array that will store the data in the desired format
+    formated_data=[]
+    for row in data_technician:
+        #row[3]=Rating, row[1]=service_type, row[2]=Price, row[4]=contact_info, row[5]=Field of expertise
+        new_row=row[3] + "|" + row[1] +"|"+ str(row[2]) + "|"+row[4]+"|"+ row[5]
+        formated_data.append(new_row)
+    return formated_data
 
 #DATA STRUCTURES WITH SAMPLE DATA
 #queue data structure used for chronological order of customer requests, and accounts created (in admin view)
 q = myQueue()
-q.push("4-Severe | Software | $80 | bobbybobby@gmail.com | My computer screen is blue and it doesnt turn on after that")
-q.push("2-Unsure | Hardware | $120 | joesmithy@gmail.com | My computer fans arent running and it is very hot")
-q.push("1-Minor | Software | $80 | fireonmycomputer@gmail.com | My computer is on fire right now")
-#binary tree data structure, used for sorting available technicians by their rating
+#btree function class, used for manipulation of the data from the technician from customer view
 btree = myBST()
-btree.insert("1-Learning | Software | $200 | tomj@gmail.com | Operating system installations or troubleshooting")
-btree.insert("3-Experienced | Software | $120 | bobsmith@gmail.com | BIOS configuration or troubleshooting")
-btree.insert("4-Novice | Hardware | $150 | juniorsmith@gmail.com | GPU/CPU installation, hardware troubleshooting")
-btree.inOrder(btree.getRoot())
+
 #heap function class, used for manipulating the heapArr (heap array) (viewing highest priority customer request)
 heap = myHeap()
-#heap array, used to create a heap, and find the topmost element for the highest priority customer request
-heapArr = ["4-Severe | Software | $80 | bobbybobby@gmail.com | My computer screen is blue and it doesnt turn on after that",
-           "2-Unsure | Hardware | $120 | joesmithy@gmail.com | My computer fans arent running and it is very hot",
-           "1-Minor | Software | $80 | fireonmycomputer@gmail.com | My computer is on fire right now"]
-heap.buildHeap(heapArr)
 # hardwareType + " | $" + price + " | " + condition + " | " + contact + " | " + description
 listings = ["Monitor | 180 | Like New | bob@gmail.com | acer 27 inch monitor fcfs",
             "GPU | 220 | Good | redsam@gmail.com | nvidia gtx 970 runs well and cool",
@@ -148,6 +197,14 @@ listings = ["Monitor | 180 | Like New | bob@gmail.com | acer 27 inch monitor fcf
 
 #Customer view window. Has the customer requests where customers can add requests and view technicians
 def customer_view():
+    technician_data=Technician_Values_from_db()
+    tech_data_format=Build_technician_data(technician_data)
+    
+    for i in range(len(tech_data_format)):
+        btree.insert(tech_data_format[i])
+    btree.inOrder(btree.getRoot())
+    
+    
     #tk.toplevel creates a new window on top of root window
     customer = tk.Toplevel(root)
     customer.title("Customer View")
@@ -208,18 +265,23 @@ def customer_view():
         condition = conditionInput.get()
         contact = contactInput.get()
         description = descriptionInput.get()
-        item = condition + " | " + requestType + " | $" + price + " | " + contact + " | " + description
-
+        
         #Array storing the info of the customer request
         item_info=[condition, requestType, price, contact, description]
 
         #Add the element to the database
         Add_request_db(item_info)
+        Update_Client_input()
 
-        #add the new item to the queue and heap for listbox
-        q.push(item)
-        #push the item to the heap
-        heapArr.append(item)    
+    def Update_Client_input():
+        selected_request.set("")
+        priceInput.delete(0, tk.END)
+        contactInput.delete(0, tk.END)
+        descriptionInput.delete(0, tk.END)
+        selected_condition.set("")
+
+
+
 
     
     #button for adding new customer requests
@@ -359,6 +421,14 @@ def admin_view():
     
 #technician window. Technicians can add themselves and view customer requests
 def technician_view():
+    #Everytime the window opens, it gets the values from the database, build the heap for the customer request
+    #And get the queue to see all the request by FIFO
+    customer_requests=Requests_Values_from_db()
+    heapArr=Build_Customer_request_format(customer_requests)
+    for i in range(len(heapArr)):
+         q.push(heapArr[i])
+    heap.buildHeap(heapArr)
+
     #create new window
     technician = tk.Toplevel(root)
     technician.title("Technician View")
@@ -432,6 +502,16 @@ def technician_view():
         btree.clearList()
         btree.insert(item)
         btree.inOrder(btree.getRoot())
+
+        Update_Input_Tech()
+
+    def Update_Input_Tech():
+        selected_request.set("")
+        priceInput.delete(0, tk.END)
+        selected_condition.set("")
+        contactInput.delete(0, tk.END)
+        descriptionInput.delete(0, tk.END)
+
 
     #get the highest priority customer request (upon button press)
     def getPriority():
