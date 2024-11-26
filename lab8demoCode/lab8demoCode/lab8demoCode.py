@@ -95,7 +95,7 @@ def Add_hardware_db(hardware_info):
     #After all the changes were done, the database connection is closed
     PC_Repair_Connection.close()
 #Function to eliminate a username from the database.
-def eliminate_user(username):
+def eliminate_user_db(username):
    
    #Connection to the database
     PC_Repair_Connection=sqlite3.connect("PC_Repair.db")
@@ -200,6 +200,13 @@ def customer_view():
         contact = contactInput.get()
         description = descriptionInput.get()
         item = condition + " | " + requestType + " | $" + price + " | " + contact + " | " + description
+
+        #Array storing the info of the customer request
+        item_info=[condition, requestType, price, contact, description]
+
+        #Add the element to the database
+        Add_request_db(item_info)
+
         #add the new item to the queue and heap for listbox
         q.push(item)
         #push the item to the heap
@@ -269,6 +276,11 @@ def admin_view():
         username = usernameInput.get()
         password = passwordInput.get()
         role = roleInput.get()
+        
+        #info from the username is stored in a array
+        username_info=[username, password, role]
+        #user info is stored into the database
+        Add_User_db(username_info)
 
         #put collected values into the username,password,and role lists (defined below by the root window)
         usernames.append(username)
@@ -284,6 +296,10 @@ def admin_view():
         #split the string into a list based on where the spaces are (in format of username = ['username', 'password', 'role']),
         #and then get the first index of this list (username[0]) (which will just be the username component)
         username = username.split(" ")[0]
+
+        #Eliminate user from the database
+        eliminate_user_db(username)
+
         #find the index of the username in the usernames list
         index = usernames.index(username)
         #remove the username from the usernames list
@@ -333,7 +349,8 @@ def technician_view():
     technician.title("Technician View")
     technician.geometry("800x600")
 
-    #Will display highest priority customer request upon buttom press. priorityText is a variable that stores the highest priority request
+    #Will display highest priority customer request upon buttom press. 
+    #priorityText is a variable that stores the highest priority request
     priorityText = tk.StringVar()
     priorityText.set("")
 
@@ -391,6 +408,12 @@ def technician_view():
         contact = contactInput.get()
         description = descriptionInput.get()
         item = condition + " | " + serviceType + " | $" + price + " | " + contact + " | " + description
+        
+        #Array to store the values of the desired datafields 
+        technician_info=[condition, serviceType, price, contact, description]
+        #Add user to the database
+        Add_technician_db(technician_info)
+
         btree.clearList()
         btree.insert(item)
         btree.inOrder(btree.getRoot())
@@ -491,6 +514,14 @@ def hardware_view():
         condition = conditionInput.get()
         contact = contactInput.get()
         description = descriptionInput.get()
+
+        #Array with all the desired datafields
+        hardware_info=[hardwareType, price, condition, contact, description]
+
+        #Call function to store the array inside the database
+        Add_hardware_db(hardware_info)
+
+
 
         #add the new listing to the listings list
         listings.append(hardwareType + " | $" + price + " | " + condition + " | " + contact + " | " + description)
