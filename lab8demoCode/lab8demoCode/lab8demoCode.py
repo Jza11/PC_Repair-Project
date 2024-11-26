@@ -213,6 +213,7 @@ def customer_view():
         #push the item to the heap
         heapArr.append(item)    
 
+    
     #button for adding new customer requests
     button = tk.Button(customer, text="Add Request", command = addItem, height=1)
     button.grid(row=10, column=0, sticky="ew", padx=40)
@@ -228,6 +229,10 @@ def customer_view():
     #update dropdown box with ordered elements
     for i in range(len(bstvalues)):
         BST.insert(tk.END, bstvalues[i])
+
+    #button to open hardware view inside customer view 
+    hardware_button = tk.Button(customer, text="Hardware Marketplace", command = hardware_view, width = 16, height=1)
+    hardware_button.grid(row=13, column=0, sticky="ew", padx=40)
 
 #Admin window, where new accounts are created or deleted
 def admin_view():
@@ -450,6 +455,9 @@ def technician_view():
     priorityButton = tk.Button(technician, text="Get Priority", command=getPriority, height=1)
     priorityButton.grid(row=14, column=0, sticky="ew", padx=40)
 
+    hardware_button = tk.Button(technician, text="Hardware Marketplace", command = hardware_view, width = 16, height=1)
+    hardware_button.grid(row=15, column=0, sticky="ew", padx=40)
+
 #hardware menu to buy and sell hardware (view hardware and contact seller outside the app)
 def hardware_view():
     #create hardware window on top of root (main window)
@@ -603,9 +611,6 @@ password_input.grid(row=3, column=0, sticky="ew", padx=40)
 #login button
 login_button = tk.Button(root, text="Login", command = login, width = 16, height=1)
 login_button.grid(row=4, column=0, sticky="ew", padx=40)
-
-hardware_button = tk.Button(root, text="Hardware", command = hardware_view, width = 16, height=1)
-hardware_button.grid(row=5, column=0, sticky="ew", padx=40)
 
 
 root.mainloop()
